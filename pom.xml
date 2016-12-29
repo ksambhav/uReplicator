@@ -45,6 +45,14 @@
 	</developers>
 	<inceptionYear>2015-2016</inceptionYear>
 
+	<repositories>
+		<repository>
+			<id>maven-restlet</id>
+			<name>Restlet repository</name>
+			<url>https://maven.restlet.com</url>
+		</repository>
+	</repositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.scala-lang</groupId>
@@ -54,7 +62,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.kafka</groupId>
-			<artifactId>kafka_2.10</artifactId>
+			<artifactId>kafka_2.11</artifactId>
 			<version>${kafka.version}</version>
 		</dependency>
 		<dependency>
@@ -95,8 +103,8 @@
 	</dependencies>
 
 	<properties>
-		<scala.version>2.10.5</scala.version>
-		<kafka.version>0.9.0.0</kafka.version>
+		<scala.version>2.11.8</scala.version>
+		<kafka.version>0.10.1.0</kafka.version>
 		<helix.version>0.6.5</helix.version>
 		<yammer.version>2.2.0</yammer.version>
 		<zookeeper.version>3.4.6</zookeeper.version>

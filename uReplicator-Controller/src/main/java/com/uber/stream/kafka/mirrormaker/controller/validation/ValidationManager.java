@@ -123,6 +123,9 @@ public class ValidationManager {
       HelixKafkaMirrorMakerMetricsReporter.get().registerMetric("topic.partitions.errorNumber",
           _numErrorTopicPartitions);
     } catch (Exception e) {
+      System.out.println("===========error here" + e.getMessage());
+      e.printStackTrace();
+      LOGGER.error("Error registering metrics!", e);
       LOGGER.error("Error registering metrics!", e);
     }
   }
@@ -267,6 +270,8 @@ public class ValidationManager {
           HelixKafkaMirrorMakerMetricsReporter.get().getRegistry().register(
               getExternalViewPerWorkMetricName(worker), workCounter);
         } catch (Exception e) {
+          System.out.println("===========error here" + e.getMessage());
+          e.printStackTrace();
           LOGGER.error("Error registering metrics!", e);
         }
         _externalViewPerWorkerTopicPartitionCounter.put(worker, workCounter);

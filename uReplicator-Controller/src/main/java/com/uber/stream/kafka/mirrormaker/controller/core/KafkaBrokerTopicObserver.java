@@ -55,6 +55,7 @@ public class KafkaBrokerTopicObserver implements IZkChildListener {
   private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
 
   private final ZkClient _zkClient;
+  private final ZkUtils _zkUtils;
   private final String _kakfaClusterName;
   private final Map<String, TopicPartition> _topicPartitionInfoMap =
       new ConcurrentHashMap<String, TopicPartition>();
@@ -70,6 +71,7 @@ public class KafkaBrokerTopicObserver implements IZkChildListener {
         zkString);
     _kakfaClusterName = brokerClusterName;
     _zkClient = new ZkClient(zkString, 30000, 30000, ZKStringSerializer$.MODULE$);
+    _zkUtils = ZkUtils.apply(_zkClient, false);
     _zkClient.subscribeChildChanges(KAFKA_TOPICS_PATH, this);
     registerMetric();
     executorService.scheduleAtFixedRate(new Runnable() {
@@ -106,8 +108,7 @@ public class KafkaBrokerTopicObserver implements IZkChildListener {
           }
         }
         scala.collection.mutable.Map<String, scala.collection.Map<Object, Seq<Object>>> partitionAssignmentForTopics =
-            ZkUtils.getPartitionAssignmentForTopics(_zkClient,
-                JavaConversions.asScalaBuffer(ImmutableList.copyOf(newAddedTopics)));
+            _zkUtils.getPartitionAssignmentForTopics(JavaConversions.asScalaBuffer(ImmutableList.copyOf(newAddedTopics)));
 
         for (String topic : newAddedTopics) {
           try {
@@ -141,8 +142,7 @@ public class KafkaBrokerTopicObserver implements IZkChildListener {
       }
 
       scala.collection.mutable.Map<String, scala.collection.Map<Object, Seq<Object>>> partitionAssignmentForTopics =
-          ZkUtils.getPartitionAssignmentForTopics(_zkClient,
-              JavaConversions.asScalaBuffer(ImmutableList.copyOf(servingTopics)));
+          _zkUtils.getPartitionAssignmentForTopics(JavaConversions.asScalaBuffer(ImmutableList.copyOf(servingTopics)));
 
       for (String topic : servingTopics) {
         try {

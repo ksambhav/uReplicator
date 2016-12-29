@@ -36,10 +36,12 @@ public class FileBackUpHandler extends BackUpHandler {
   }
 
   public void writeToFile(String fileName, String data) throws Exception {
+    LOGGER.warn("==============1"+localPath + "/" + fileName);
     BufferedWriter output = null;
     try {
+      LOGGER.warn("==============2"+localPath + "/" + fileName);
       File myfile = new File(localPath + "/" + fileName);
-
+      System.out.println(localPath + "/" + fileName);
       try {
         output = new BufferedWriter(new FileWriter(myfile));
         output.write(data);

@@ -69,6 +69,8 @@ public class ClusterInfoBackupManager {
         try {
           dumpState();
         } catch (Exception e) {
+          System.out.println("HERE");
+          e.printStackTrace();
           LOGGER.error(String.format("Failed to take backup, with exception: %s", e));
           return;
         }
