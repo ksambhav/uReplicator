@@ -31,7 +31,7 @@ import org.apache.helix.participant.StateMachineEngine
 import org.apache.helix.{HelixManager, HelixManagerFactory, InstanceType}
 import org.apache.kafka.clients.producer.internals.ErrorLoggingCallback
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerConfig, ProducerRecord, RecordMetadata}
-import org.apache.kafka.common.utils.Utils
+import kafka.utils.Utils
 
 import scala.io.Source
 
@@ -362,7 +362,8 @@ object MirrorMakerWorker extends Logging with KafkaMetricsGroup {
     }
 
     def flush() {
-      this.producer.flush()
+      this.producer
+      //TODO
     }
 
     def close() {
@@ -370,7 +371,7 @@ object MirrorMakerWorker extends Logging with KafkaMetricsGroup {
     }
 
     def close(timeout: Long) {
-      this.producer.close(timeout, TimeUnit.MILLISECONDS)
+      this.producer.close()
     }
   }
 
