@@ -53,7 +53,7 @@ public class HelixKafkaMirrorMakerMetricsReporter {
     final String clientId = config.getInstanceId();
     String[] dcNenv = parse(environment);
     if (dcNenv == null) {
-      LOGGER.error("Error parsing environment info");
+      LOGGER.error("Error parsing environment info: " + environment);
       _registry = null;
       _graphiteReporter = null;
       _jmxReporter = null;
@@ -138,6 +138,7 @@ public class HelixKafkaMirrorMakerMetricsReporter {
     if (DID_INIT)
       return;
     METRICS_REPORTER_INSTANCE = new HelixKafkaMirrorMakerMetricsReporter(config);
+    LOGGER.info("HelixKafkaMirrorMakerMetricsReporter started: " + METRICS_REPORTER_INSTANCE.toString());
     DID_INIT = true;
   }
 

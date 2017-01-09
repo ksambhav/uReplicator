@@ -214,7 +214,7 @@ class CompactConsumerFetcherThread(name: String,
         response.data.foreach {
           case(topicAndPartition, partitionData) =>
             val (topic, partitionId) = topicAndPartition.asTuple
-            partitionMap.get(topicAndPartition).foreach(currentPartitionFetchOffset =>
+            partitionMap.get(topicAndPartition).foreach(currentPartitionFetchOffset => {
               // we append to the log if the current offset is defined and it is the same as the offset requested during fetch
               if (fetchRequest.requestInfo(topicAndPartition).offset == currentPartitionFetchOffset) {
                 partitionData.error match {
@@ -263,7 +263,11 @@ class CompactConsumerFetcherThread(name: String,
                       partitionsWithError += topicAndPartition
                     }
                 }
-              })
+              }
+              else{
+                error(s"offset doesn't match! fetch: ${fetchRequest.requestInfo(topicAndPartition).offset}, curr: ${currentPartitionFetchOffset} ")
+              }
+          })
         }
       }
     }
