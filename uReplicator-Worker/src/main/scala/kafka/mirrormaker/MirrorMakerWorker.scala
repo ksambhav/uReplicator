@@ -16,6 +16,7 @@
 package kafka.mirrormaker
 
 import java.net.InetAddress
+import java.nio.charset.Charset
 import java.util
 import java.util.concurrent.atomic.{AtomicBoolean, AtomicInteger}
 import java.util.concurrent.{CountDownLatch, TimeUnit}
@@ -32,6 +33,7 @@ import org.apache.helix.{HelixManager, HelixManagerFactory, InstanceType}
 import org.apache.kafka.clients.producer.internals.ErrorLoggingCallback
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerConfig, ProducerRecord, RecordMetadata}
 import kafka.utils.Utils
+import utils.LogUtil
 
 import scala.io.Source
 
@@ -60,7 +62,7 @@ object MirrorMakerWorker extends Logging with KafkaMetricsGroup {
   private var helixZkManager: HelixManager = null
 
   private var connector: KafkaConnector = null
-  private var producer: MirrorMakerProducer = null
+  private var producer: LogFileProducer = null
   private var mirrorMakerThread: MirrorMakerThread = null
   private val isShuttingdown: AtomicBoolean = new AtomicBoolean(false)
   // Track the messages not successfully sent by mirror maker.
@@ -146,7 +148,7 @@ object MirrorMakerWorker extends Logging with KafkaMetricsGroup {
     maybeSetDefaultProperty(producerProps, ProducerConfig.BLOCK_ON_BUFFER_FULL_CONFIG, "true")
     maybeSetDefaultProperty(producerProps, ProducerConfig.ACKS_CONFIG, "all")
     maybeSetDefaultProperty(producerProps, ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, "1")
-    producer = new MirrorMakerProducer(producerProps)
+    producer = new LogFileProducer(producerProps)
 
     // create helix manager
     val helixProps = Utils.loadProps(options.valueOf(helixConfigOpt))
@@ -375,6 +377,36 @@ object MirrorMakerWorker extends Logging with KafkaMetricsGroup {
     }
   }
 
+
+  private class LogFileProducer(val producerProps: Properties) {
+
+    def send(record: ProducerRecord[Array[Byte], Array[Byte]]) {
+      info("writing log: " + record.topic() )
+      LogUtil.Log(
+        record.topic(),
+        new String(record.key(), Charset.forName("UTF-8")),
+        new String(record.value(), Charset.forName("UTF-8"))
+      )
+    }
+
+    def flush() {
+      info("LogFileProducer flush")
+      //TODO
+    }
+
+    def close() {
+      info("LogFileProducer close")
+      //TODO
+    }
+
+    def close(timeout: Long) {
+      info("LogFileProducer close time out")
+      //TODO
+    }
+  }
+
+
+
   private class MirrorMakerProducerCallback (topic: String, key: Array[Byte], value: Array[Byte])
     extends ErrorLoggingCallback(topic, key, value, false) {
 
@@ -407,6 +439,38 @@ object MirrorMakerWorker extends Logging with KafkaMetricsGroup {
       // rewrite topic between consuming side and producing side
       val topic = topicMappings.get(record.topic).getOrElse(record.topic)
       Collections.singletonList(new ProducerRecord[Array[Byte], Array[Byte]](topic, record.key(), record.message()))
+    }
+  }
+
+  /**
+    * message handler for vds-api, including
+    * topic mapping
+    * query db, process UTM data TODO
+    */
+  private object vdsApiMirrorMakerMessageHandler extends MirrorMakerMessageHandler {
+
+    override def handle(record: MessageAndMetadata[Array[Byte], Array[Byte]]): util.List[ProducerRecord[Array[Byte], Array[Byte]]] = {
+
+      // rewrite topic between consuming side and producing side
+      val mappedTopic = topicMappings.get(record.topic).getOrElse(record.topic)
+
+      val processedKeyMessage = processRecord(record)
+
+      val processedRecord = new ProducerRecord[Array[Byte], Array[Byte]](mappedTopic, processedKeyMessage._1, processedKeyMessage._2)
+
+      Collections.singletonList(processedRecord)
+    }
+
+    // process message for some topics
+    private def processRecord(record: MessageAndMetadata[Array[Byte], Array[Byte]]): (Array[Byte], Array[Byte]) = {
+      //TODO
+      if(record.topic == "UTM" ){
+        (record.key(), record.message())
+        //TODO
+      }
+      else {
+        (record.key(), record.message())
+      }
     }
   }
 

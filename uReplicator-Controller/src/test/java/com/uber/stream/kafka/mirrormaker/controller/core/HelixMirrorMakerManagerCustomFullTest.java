@@ -157,9 +157,11 @@ public class HelixMirrorMakerManagerCustomFullTest {
     int expectedUpperBound = (int) Math.ceil((double) numTotalPartitions / (double) numInstances);
     for (String instanceName : serverToPartitionMapping.keySet()) {
       // May not be perfect balancing.
+      /*
       LOGGER.info("Current {} serving {} partitions, expected [{}, {}]", instanceName,
           serverToPartitionMapping.get(instanceName), expectedLowerBound,
           expectedUpperBound);
+      */
       Assert.assertTrue(serverToPartitionMapping.get(instanceName) >= expectedLowerBound);
       Assert.assertTrue(serverToPartitionMapping.get(instanceName) <= expectedUpperBound);
     }

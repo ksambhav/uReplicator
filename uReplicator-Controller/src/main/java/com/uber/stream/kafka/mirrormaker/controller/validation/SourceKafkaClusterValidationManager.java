@@ -121,8 +121,9 @@ public class SourceKafkaClusterValidationManager {
           if (_enableAutoTopicExpansion && (tp.getPartition() > numPartitionsInMirrorMaker)) {
             // Only do topic expansion
             LOGGER.warn(
-                "Trying to expand topic {} from {} partitions in mirror maker to {} from source kafka broker!",
-                topic, numPartitionsInMirrorMaker, tp.getPartition());
+                String.format("Trying to expand topic %s from %s partitions in mirror maker to %s from source kafka broker!",
+                topic, numPartitionsInMirrorMaker, tp.getPartition())
+            );
             _numAutoExpandedTopics.inc();
             _numAutoExpandedTopicPartitions.inc(mismatchedPartitions);
             _helixMirrorMakerManager.expandTopicInMirrorMaker(tp);
@@ -130,8 +131,9 @@ public class SourceKafkaClusterValidationManager {
             numMismatchedTopicPartitions += mismatchedPartitions;
             misMatchedPartitionNumberTopics.put(topic, mismatchedPartitions);
             LOGGER.warn(
-                "Number of partitions not matched for topic {} between mirrormaker:{} and source kafka broker: {}!",
-                topic, numPartitionsInMirrorMaker, tp.getPartition());
+                String.format("Number of partitions not matched for topic %s between mirrormaker:%s and source kafka broker: %s!",
+                topic, numPartitionsInMirrorMaker, tp.getPartition())
+            );
           }
         }
       }

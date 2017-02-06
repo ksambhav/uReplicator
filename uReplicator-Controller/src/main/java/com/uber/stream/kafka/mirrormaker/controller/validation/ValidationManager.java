@@ -123,7 +123,7 @@ public class ValidationManager {
       HelixKafkaMirrorMakerMetricsReporter.get().registerMetric("topic.partitions.errorNumber",
           _numErrorTopicPartitions);
     } catch (Exception e) {
-      LOGGER.error("Error registering metrics!", e);
+      LOGGER.error("Error registering metrics!" + e);
     }
   }
 
@@ -150,8 +150,9 @@ public class ValidationManager {
             .size()) {
           numErrorTopics++;
           LOGGER.error(
-              "For topic:{}, number of partitions for IdealState: {} doesn't match ExternalView: {}",
-              topicName, idealStateForTopic, externalViewForTopic);
+              String.format("For topic:%s, number of partitions for IdealState: %s doesn't match ExternalView: %s",
+              topicName, idealStateForTopic, externalViewForTopic)
+          );
         }
 
         // IdealState Counting

@@ -127,16 +127,6 @@
 			<version>${avro.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.helix</groupId>
 			<artifactId>helix-core</artifactId>
 			<version>${helix.version}</version>
@@ -160,11 +150,6 @@
 			<groupId>org.restlet.jse</groupId>
 			<artifactId>org.restlet.ext.jetty</artifactId>
 			<version>${restlet.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>${log4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.testng</groupId>
