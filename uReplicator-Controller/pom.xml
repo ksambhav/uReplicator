@@ -145,14 +145,9 @@
             <version>${log4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>${testng.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.eclipse.jgit</groupId>
             <artifactId>org.eclipse.jgit</artifactId>
-            <version>4.0.0.201506020755-rc3</version>
+            <version>${jgit.version}</version>
         </dependency>
 
     </dependencies>
