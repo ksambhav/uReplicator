@@ -56,6 +56,7 @@
         <io.dropwizard.metrics.version>3.1.1</io.dropwizard.metrics.version>
         <jaccoco.version>0.7.8</jaccoco.version>
         <jgit.version>4.6.1.201703071140-r</jgit.version>
+        <docker.target.folder>${project.basedir}/docker</docker.target.folder>
     </properties>
 
     <modules>
@@ -264,42 +265,42 @@
             </plugins>
         </pluginManagement>
         <plugins>
-           <!-- <plugin>
-                <groupId>com.mycila</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-                <configuration>
-                    <header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
-                    <properties>
-                        <owner>Uber Technology Inc.</owner>
-                        <email>streaming-core@uber.com</email>
-                    </properties>
-                    <excludes>
-                        <exclude>config/*.*</exclude>
-                        <exclude>**/*.xml</exclude>
-                        <exclude>**/*.txt</exclude>
-                        <exclude>**/*.log</exclude>
-                        <exclude>**/*.properties</exclude>
-                        <exclude>**/bin/*.*</exclude>
-                        <exclude>**/bin/*/*.*</exclude>
-                        <exclude>**/config/*.*</exclude>
-                        <exclude>**/target/**/*.*</exclude>
-                        <exclude>**/deploy/**/*.*</exclude>
-                        <exclude>**/resources/**/*.*</exclude>
-                    </excludes>
-                    <mapping>
-                        <thrift>JAVADOC_STYLE</thrift>
-                        <g>DOUBLESLASH_STYLE</g>
-                        <g4>JAVADOC_STYLE</g4>
-                    </mapping>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>-->
+            <!-- <plugin>
+                 <groupId>com.mycila</groupId>
+                 <artifactId>license-maven-plugin</artifactId>
+                 <configuration>
+                     <header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
+                     <properties>
+                         <owner>Uber Technology Inc.</owner>
+                         <email>streaming-core@uber.com</email>
+                     </properties>
+                     <excludes>
+                         <exclude>config/*.*</exclude>
+                         <exclude>**/*.xml</exclude>
+                         <exclude>**/*.txt</exclude>
+                         <exclude>**/*.log</exclude>
+                         <exclude>**/*.properties</exclude>
+                         <exclude>**/bin/*.*</exclude>
+                         <exclude>**/bin/*/*.*</exclude>
+                         <exclude>**/config/*.*</exclude>
+                         <exclude>**/target/**/*.*</exclude>
+                         <exclude>**/deploy/**/*.*</exclude>
+                         <exclude>**/resources/**/*.*</exclude>
+                     </excludes>
+                     <mapping>
+                         <thrift>JAVADOC_STYLE</thrift>
+                         <g>DOUBLESLASH_STYLE</g>
+                         <g4>JAVADOC_STYLE</g4>
+                     </mapping>
+                 </configuration>
+                 <executions>
+                     <execution>
+                         <goals>
+                             <goal>check</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+             </plugin>-->
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.0.2</version>
