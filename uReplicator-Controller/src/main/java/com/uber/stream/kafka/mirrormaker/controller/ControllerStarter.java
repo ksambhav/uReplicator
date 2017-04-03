@@ -15,9 +15,11 @@
  */
 package com.uber.stream.kafka.mirrormaker.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import com.uber.stream.kafka.mirrormaker.controller.core.*;
+import com.uber.stream.kafka.mirrormaker.controller.reporter.HelixKafkaMirrorMakerMetricsReporter;
+import com.uber.stream.kafka.mirrormaker.controller.rest.ControllerRestApplication;
+import com.uber.stream.kafka.mirrormaker.controller.validation.SourceKafkaClusterValidationManager;
+import com.uber.stream.kafka.mirrormaker.controller.validation.ValidationManager;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -29,16 +31,8 @@ import org.restlet.data.Protocol;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.uber.stream.kafka.mirrormaker.controller.core.AutoTopicWhitelistingManager;
-import com.uber.stream.kafka.mirrormaker.controller.core.ClusterInfoBackupManager;
-import com.uber.stream.kafka.mirrormaker.controller.core.FileBackUpHandler;
-import com.uber.stream.kafka.mirrormaker.controller.core.GitBackUpHandler;
-import com.uber.stream.kafka.mirrormaker.controller.core.HelixMirrorMakerManager;
-import com.uber.stream.kafka.mirrormaker.controller.core.KafkaBrokerTopicObserver;
-import com.uber.stream.kafka.mirrormaker.controller.reporter.HelixKafkaMirrorMakerMetricsReporter;
-import com.uber.stream.kafka.mirrormaker.controller.rest.ControllerRestApplication;
-import com.uber.stream.kafka.mirrormaker.controller.validation.SourceKafkaClusterValidationManager;
-import com.uber.stream.kafka.mirrormaker.controller.validation.ValidationManager;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The main entry point for everything.
@@ -116,7 +110,7 @@ public class ControllerStarter {
 
       return new AutoTopicWhitelistingManager(_kafkaBrokerTopicObserverMap.get(SRC_KAFKA_CLUSTER),
           _kafkaBrokerTopicObserverMap.get(DEST_KAFKA_CLUSTER), _helixMirrorMakerManager,
-          patternToExcludeTopics, _config.getRefreshTimeInSeconds(), _config.getInitWaitTimeInSeconds());
+          patternToExcludeTopics, _config.getRefreshTimeInSeconds(), _config.getInitWaitTimeInSeconds(), _config.getSourceDataCenterTag());
     } else {
       LOGGER.info("Not init AutoTopicWhitelistingManager!");
       return null;
