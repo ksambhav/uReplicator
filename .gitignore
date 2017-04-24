@@ -19,8 +19,7 @@ dependency-reduced-pom.xml
 # OSX
 ######################
  
-.DS_Store
- 
+
 # Thumbnails
 ._*
  
@@ -62,3 +61,6 @@ out
 *.ipr
 *.iws
 *.iml
+.gradle/
+bin
+uReplicator-Distribution/src/main/resources/
