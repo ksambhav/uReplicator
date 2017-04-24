@@ -148,12 +148,14 @@ public class AutoTopicWhitelistingManager {
     }
 
     private Set<String> getCandidateTopicsToWhitelist() {
-        Set<String> candidateTopics = new HashSet<String>(_srcKafkaTopicObserver.getAllTopics());
-        if (this.sourceDataCenterTag != null && this.sourceDataCenterTag.length() > 0) {
+        Set<String> candidateTopics = new HashSet<>(_srcKafkaTopicObserver.getAllTopics());
+        if (this.sourceDataCenterTag != null && this.sourceDataCenterTag.length() > 0 && !candidateTopics.isEmpty()) {
+            LOGGER.info("source topic with {} prefix only will be mirrored to destination", this.sourceDataCenterTag);
             candidateTopics = candidateTopics.stream().filter(t -> t.startsWith(this.sourceDataCenterTag)).collect(Collectors.toSet());
         }
         //candidateTopics.retainAll(_destKafkaTopicObserver.getAllTopics());
-        candidateTopics.removeAll(_helixMirrorMakerManager.getTopicLists());
+        List<String> helixManagerTopicList = _helixMirrorMakerManager.getTopicLists();
+        candidateTopics.removeAll(helixManagerTopicList);
         candidateTopics.addAll(getPartitionMismatchedTopics());
 
         loadBlacklistedTopics();
@@ -171,7 +173,6 @@ public class AutoTopicWhitelistingManager {
                 itr.remove();
             }
         }
-
         return candidateTopics;
     }
 
