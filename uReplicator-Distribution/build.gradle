@@ -1,0 +1,8 @@
+
+description = 'uReplicator-Distribution'
+dependencies {
+    compile project(':uReplicator-Controller')
+    compile project(':uReplicator-Worker')
+}
+apply plugin: 'application'
+mainClassName='com.uber.stream.kafka.mirrormaker.starter.MirrorMakerStarter'

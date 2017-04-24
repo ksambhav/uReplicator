@@ -1,0 +1,8 @@
+rootProject.name = 'uReplicator'
+include ':uReplicator-Controller'
+include ':uReplicator-Worker'
+include ':uReplicator-Distribution'
+
+project(':uReplicator-Controller').projectDir = "$rootDir/uReplicator-Controller" as File
+project(':uReplicator-Worker').projectDir = "$rootDir/uReplicator-Worker" as File
+project(':uReplicator-Distribution').projectDir = "$rootDir/uReplicator-Distribution" as File

@@ -61,6 +61,7 @@ out
 *.ipr
 *.iws
 *.iml
-.gradle/
+.gradle
 bin
 uReplicator-Distribution/src/main/resources/
+build
